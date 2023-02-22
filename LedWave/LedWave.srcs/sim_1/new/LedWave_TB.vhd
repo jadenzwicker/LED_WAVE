@@ -2,61 +2,66 @@
 -- Company: Kennesaw State University
 -- Engineer: Jaden Zwicker
 -- 
--- Module Name: ColorConverter - ColorConverter_ARCH
+-- Module Name: LedWave - LedWave_ARCH
 -- 
 -- Course Name: CPE 3020/01
 -- Lab 2
 --
 -- Description:
 -- This test bench is to fully explore all possible input combinations of 
--- ColorConverter.vhd. 
+-- LedWave.vhd. 
 --
 -- Detailed variable naming explanations and overall function is explained
--- in ColorConverter.vhd file.
+-- in LedWave.vhd file.
 ----------------------------------------------------------------------------------
 
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
 
-entity ColorConverter_TB is
-end ColorConverter_TB;
+entity LedWave_TB is
+end LedWave_TB;
 
-architecture ColorConverter_TB_ARCH of ColorConverter_TB is
+architecture LedWave_TB_ARCH of LedWave_TB is
     --unit-under-test-------------------------------------COMPONENT
-    component ColorConverter
+    component LedWave
         port (
-            charPressed:  in   std_logic_vector(7 downto 0);
-            color:        out  std_logic_vector(23 downto 0);
-            sevenSegs:    out  std_logic_vector(6 downto 0)
+            reset:   in   std_logic;
+            clock:   out  std_logic;
+            leds:    out  std_logic_vector(15 downto 0)
         );
     end component;
     
     --uut-signals-------------------------------------------SIGNALS
-    signal charPressed:  std_logic_vector(7 downto 0);
-    signal color:        std_logic_vector(23 downto 0);
-    signal sevenSegs:    std_logic_vector(6 downto 0);
+    signal reset:   std_logic;
+    signal clock:   std_logic;
+    signal leds:    std_logic_vector(15 downto 0);
+    
+    constant NUM_STATES: integer := 18;
+    constant ACTIVE:     std_logic := '1';
     
 begin
     --Unit-Under-Test-------------------------------------------UUT
-    UUT: ColorConverter port map(
-        charPressed => charPressed,
-        color       => color,
-        sevenSegs   => sevenSegs
+    UUT: LedWave port map(
+         reset => reset,
+         clock => clock,
+         leds  => leds
     );
     
     --Switch and Button Driver----------------------------------------PROCESS
-    CHAR_PRESSED_DRIVER: process
+    TEST_CASE_DRIVER: process
     begin
-        -- Possible charCount combinations go from 0 to 255 decimal. 
-        -- to_unsigned keyword converts the "i" which is an int into the
-        -- 8 bit binary representation which is charPressed's data type.
-        for i in 0 to (2 ** charPressed'length - 1) loop
-            -- increment charPressed
+        -- Testing reset
+        reset <= ACTIVE
+        wait for 1 ns;
+        reset <= not ACTIVE
+        
+        for i in 0 to NUM_STATES loop
+            -- switch clock
             charPressed <= std_logic_vector(to_unsigned(i, charPressed'length));
             wait for 1 ns;
         end loop;
         -- Ends Simulation
         report "simulation finished successfully" severity FAILURE;
     end process;
-end ColorConverter_TB_ARCH;
+end LedWave_TB_ARCH;
