@@ -49,7 +49,7 @@ architecture LedWave_ARCH of LedWave is
     -- All other states contain 2 lit leds scrolling accross the panel from
     -- left to right.
     type States_t is (BLANK, LEFT, POS1, POS2, POS3, POS4, POS5, POS6, POS7, POS8,
-                       POS9, POS10, POS11, POS12, POS13, POS14, RIGHT);
+                       POS9, POS10, POS11, POS12, POS13, POS14, POS15, RIGHT);
                        
     -- Creating signals for state machine, of type States_t which is all
     -- possible states. 
@@ -77,55 +77,158 @@ begin
             when BLANK =>
             leds <= BLANK_LEDS;
             nextState <= LEFT;
-            --------------------------------------------------------CENTER
-            when CENTER =>
-            leds <= INSIDE_LEDS;
-            if (ledControl=ACTIVE) then
-            nextState <= OUT1;
-            else
-            nextState <= CENTER;
-            end if;
-            ----------------------------------------------------------OUT1
-            when OUT1 =>
-            leds <= MID_IN_LEDS;
             
-            if (ledControl=ACTIVE) then
-            nextState <= OUT2;
+            -- LEFT
+            when LEFT =>
+            leds <= LEFT_LEDS;
+            if (pulse = ACTIVE) then
+                nextState <= POS1;
             else
-            nextState <= OUT1;
+                nextState <= LEFT;
             end if;
-            ---------------------------------------------------------OUT2
-            when OUT2 =>
-            leds <= MID_OUT_LEDS;
-            if (ledControl=ACTIVE) then
-            nextState <= OUTSIDE;
-            else
-            nextState <= OUT2;
-            end if;
-            ------------------------------------------------------OUTSIDE
-            when OUTSIDE =>
-            leds <= OUTSIDE_LEDS;
-            if (ledControl=ACTIVE) then
-            nextState <= IN1;
-            else
-            nextState <= OUTSIDE;
-            end if;
-            ----------------------------------------------------------IN1
-            when IN1 =>
-            leds <= MID_OUT_LEDS;
-            if (ledControl=ACTIVE) then
-            nextState <= IN2;
-            else
-            nextState <= IN1;
-            end if;
-            ----------------------------------------------------------IN2
-            when IN2 =>
-            leds <= MID_IN_LEDS;
             
-            if (ledControl=ACTIVE) then
-            nextState <= CENTER;
+            -- POS1
+            when POS1 =>
+            leds <= POS1_LEDS;
+            if (pulse = ACTIVE) then
+                nextState <= POS2;
             else
-            nextState <= IN2;
+                nextState <= POS1;
+            end if;
+            
+            -- POS2
+            when POS2 =>
+            leds <= POS2_LEDS;
+            if (pulse = ACTIVE) then
+                nextState <= POS3;
+            else
+                nextState <= POS2;
+            end if;
+            
+            -- POS3
+            when POS3 =>
+            leds <= POS3_LEDS;
+            if (pulse = ACTIVE) then
+                nextState <= POS4;
+            else
+                nextState <= POS3;
+            end if;
+            
+            -- POS4
+            when POS4 =>
+            leds <= POS4_LEDS;
+            if (pulse = ACTIVE) then
+                nextState <= POS5;
+            else
+                nextState <= POS4;
+            end if;
+            
+            -- POS5
+            when POS5 =>
+            leds <= POS5_LEDS;
+            if (pulse = ACTIVE) then
+                nextState <= POS6;
+            else
+                nextState <= POS5;
+            end if;
+            
+            -- POS6
+            when POS6 =>
+            leds <= POS6_LEDS;
+            if (pulse = ACTIVE) then
+                nextState <= POS7;
+            else
+                nextState <= POS6;
+            end if;
+            
+            -- POS7
+            when POS7 =>
+            leds <= POS7_LEDS;
+            if (pulse = ACTIVE) then
+                nextState <= POS8;
+            else
+                nextState <= POS7;
+            end if;
+            
+            -- POS8
+            when POS8 =>
+            leds <= POS8_LEDS;
+            if (pulse = ACTIVE) then
+                nextState <= POS9;
+            else
+                nextState <= POS8;
+            end if;
+            
+            -- POS9
+            when POS9 =>
+            leds <= POS9_LEDS;
+            if (pulse = ACTIVE) then
+                nextState <= POS10;
+            else
+                nextState <= POS9;
+            end if;
+            
+            -- POS10
+            when POS10 =>
+            leds <= POS10_LEDS;
+            if (pulse = ACTIVE) then
+                nextState <= POS11;
+            else
+                nextState <= POS10;
+            end if;
+            
+            -- POS11
+            when POS11 =>
+            leds <= POS11_LEDS;
+            if (pulse = ACTIVE) then
+                nextState <= POS12;
+            else
+                nextState <= POS11;
+            end if;
+            
+            -- POS12
+            when POS12 =>
+            leds <= POS12_LEDS;
+            if (pulse = ACTIVE) then
+                nextState <= POS13;
+            else
+                nextState <= POS12;
+            end if;
+            
+            -- POS13
+            when POS13 =>
+            leds <= POS13_LEDS;
+            if (pulse = ACTIVE) then
+                nextState <= POS14;
+            else
+                nextState <= POS13;
+            end if;
+            
+            -- POS14
+            when POS14 =>
+            leds <= POS14_LEDS;
+            if (pulse = ACTIVE) then
+                nextState <= POS15;
+            else
+                nextState <= POS14;
+            end if;
+            
+            -- POS15
+            when POS15 =>
+            leds <= POS15_LEDS;
+            if (pulse = ACTIVE) then
+                nextState <= RIGHT;
+            else
+                nextState <= POS15;
+            end if;
+            
+            -- RIGHT
+            when RIGHT =>
+            leds <= RIGHT_LEDS;
+            if (pulse = ACTIVE) then
+                nextState <= LEFT;
+            else
+                nextState <= RIGHT;
             end if;
         end case;
     end process;
