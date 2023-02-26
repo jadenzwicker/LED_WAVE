@@ -1,0 +1,1 @@
+-wto "4af13977506e4c80ad2becd68a9ca0e3" --incr --debug "typical" --relax --mt "2" -L "xil_defaultlib" -L "secureip" --snapshot "LedWave_BASYS3_behav" "xil_defaultlib.LedWave_BASYS3" -log "elaborate.log" 

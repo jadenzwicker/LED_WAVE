@@ -1,0 +1,8 @@
+# compile vhdl design source files
+vhdl xil_defaultlib  \
+"../../../../LedWave.srcs/sources_1/new/LedWave.vhd" \
+"../../../../LedWave.srcs/sources_1/new/LedWave_BASYS3.vhd" \
+"../../../../LedWave.srcs/sim_1/new/LedWave_TB.vhd" \
+
+# Do not sort compile order
+nosort
