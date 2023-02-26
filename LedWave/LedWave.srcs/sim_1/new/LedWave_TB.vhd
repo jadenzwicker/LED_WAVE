@@ -27,7 +27,7 @@ architecture LedWave_TB_ARCH of LedWave_TB is
     component LedWave
         port (
             reset:   in   std_logic;
-            clock:   out  std_logic;
+            clock:   in  std_logic;
             leds:    out  std_logic_vector(15 downto 0)
         );
     end component;
@@ -49,19 +49,23 @@ begin
     );
     
     --Switch and Button Driver----------------------------------------PROCESS
-    TEST_CASE_DRIVER: process
+    
+        TEST_CASE_DRIVER: process
+    variable temp_count : integer range 0 to 1000;
     begin
-        -- Testing reset
-        reset <= ACTIVE
-        wait for 1 ns;
-        reset <= not ACTIVE
-        
-        for i in 0 to NUM_STATES loop
-            -- switch clock
-            charPressed <= std_logic_vector(to_unsigned(i, charPressed'length));
-            wait for 1 ns;
+        for i in 0 to 1000 loop
+            clock <= not ACTIVE;
+              -- ONLY USING ps DUE TO SIMULATION TIMING OUT TOO SOON IF ns USED
+            wait for 10 ps;
+            clock <= ACTIVE;
+            wait for 10 ps;
+            temp_count := temp_count + 1;
+            if (temp_count / 400 = 1) then
+                reset <= ACTIVE;
+            else     
+                reset <= not ACTIVE;
+            end if;
         end loop;
-        -- Ends Simulation
         report "simulation finished successfully" severity FAILURE;
     end process;
 end LedWave_TB_ARCH;

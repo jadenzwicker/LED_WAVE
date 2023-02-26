@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Vivado v2020.2 (64-bit)
+# SW Build 3064766 on Wed Nov 18 09:12:45 MST 2020
+# IP Build 3064653 on Wed Nov 18 14:17:31 MST 2020
+# Start of session at: Sun Feb 26 10:20:20 2023
+# Process ID: 26188
+# Current directory: D:/LED_WAVE/LedWave/LedWave.runs/synth_1
+# Command line: vivado.exe -log LedWave_BASYS3.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source LedWave_BASYS3.tcl
+# Log file: D:/LED_WAVE/LedWave/LedWave.runs/synth_1/LedWave_BASYS3.vds
+# Journal file: D:/LED_WAVE/LedWave/LedWave.runs/synth_1\vivado.jou
+#-----------------------------------------------------------
+source LedWave_BASYS3.tcl -notrace

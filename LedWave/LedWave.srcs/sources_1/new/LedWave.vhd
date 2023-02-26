@@ -23,33 +23,33 @@ architecture LedWave_ARCH of LedWave is
 
     -- Defining general constants
     constant ACTIVE: std_logic := '1';
-    constant COUNT_4HZ: integer := (100000000/4)-1;
+    constant COUNT_4HZ: integer := (100000000/8)-1;   -- Used to slow down clock must be changed when testing
     
     -- Defining Constants for led illumination values
-    constant BLANK_LEDS: std_logic_vector(15 downto 0) := "0000000000000000";
-    constant LEFT_LEDS:  std_logic_vector(15 downto 0) := "1000000000000000";
-    constant POS1_LEDS:  std_logic_vector(15 downto 0) := "1100000000000000";
-    constant POS2_LEDS:  std_logic_vector(15 downto 0) := "0110000000000000";
-    constant POS3_LEDS:  std_logic_vector(15 downto 0) := "0011000000000000";
-    constant POS4_LEDS:  std_logic_vector(15 downto 0) := "0001100000000000";
-    constant POS5_LEDS:  std_logic_vector(15 downto 0) := "0000110000000000";
-    constant POS6_LEDS:  std_logic_vector(15 downto 0) := "0000011000000000";
-    constant POS7_LEDS:  std_logic_vector(15 downto 0) := "0000001100000000";
-    constant POS8_LEDS:  std_logic_vector(15 downto 0) := "0000000110000000";
-    constant POS9_LEDS:  std_logic_vector(15 downto 0) := "0000000011000000";
-    constant POS10_LEDS: std_logic_vector(15 downto 0) := "0000000001100000";
-    constant POS11_LEDS: std_logic_vector(15 downto 0) := "0000000000110000";
-    constant POS12_LEDS: std_logic_vector(15 downto 0) := "0000000000011000";
-    constant POS13_LEDS: std_logic_vector(15 downto 0) := "0000000000001100";
-    constant POS14_LEDS: std_logic_vector(15 downto 0) := "0000000000000110";
-    constant POS15_LEDS: std_logic_vector(15 downto 0) := "0000000000000011";
-    constant RIGHT_LEDS: std_logic_vector(15 downto 0) := "0000000000000001";
+    constant BLANK_LEDS:  std_logic_vector(15 downto 0) := "0000000000000000";
+    constant LEFT_LEDS:   std_logic_vector(15 downto 0) := "1000000000000000";
+    constant POS1_LEDS:   std_logic_vector(15 downto 0) := "1100000000000000";
+    constant POS2_LEDS:   std_logic_vector(15 downto 0) := "0110000000000000";
+    constant POS3_LEDS:   std_logic_vector(15 downto 0) := "0011000000000000";
+    constant POS4_LEDS:   std_logic_vector(15 downto 0) := "0001100000000000";
+    constant POS5_LEDS:   std_logic_vector(15 downto 0) := "0000110000000000";
+    constant POS6_LEDS:   std_logic_vector(15 downto 0) := "0000011000000000";
+    constant POS7_LEDS:   std_logic_vector(15 downto 0) := "0000001100000000";
+    constant POS8_LEDS:   std_logic_vector(15 downto 0) := "0000000110000000";
+    constant POS9_LEDS:   std_logic_vector(15 downto 0) := "0000000011000000";
+    constant POS10_LEDS:  std_logic_vector(15 downto 0) := "0000000001100000";
+    constant POS11_LEDS:  std_logic_vector(15 downto 0) := "0000000000110000";
+    constant POS12_LEDS:  std_logic_vector(15 downto 0) := "0000000000011000";
+    constant POS13_LEDS:  std_logic_vector(15 downto 0) := "0000000000001100";
+    constant POS14_LEDS:  std_logic_vector(15 downto 0) := "0000000000000110";
+    constant POS15_LEDS:  std_logic_vector(15 downto 0) := "0000000000000011";
+    constant ROTATE_LEDS: std_logic_vector(15 downto 0) := "1000000000000001";
     
     -- Right and left states contain one led lit at the left and rightmost postion.
     -- All other states contain 2 lit leds scrolling accross the panel from
     -- left to right.
     type States_t is (BLANK, LEFT, POS1, POS2, POS3, POS4, POS5, POS6, POS7, POS8,
-                       POS9, POS10, POS11, POS12, POS13, POS14, POS15, RIGHT);
+                       POS9, POS10, POS11, POS12, POS13, POS14, POS15, ROTATE);
                        
     -- Creating signals for state machine, of type States_t which is all
     -- possible states. 
@@ -63,7 +63,7 @@ begin
     
     STATE_REGISTER: process(reset, clock)
     begin
-        if (reset=ACTIVE) then
+        if (reset = ACTIVE) then
             currentState <= BLANK;
         elsif (rising_edge(clock)) then
             currentState <= nextState;
@@ -217,18 +217,18 @@ begin
             when POS15 =>
             leds <= POS15_LEDS;
             if (pulse = ACTIVE) then
-                nextState <= RIGHT;
+                nextState <= ROTATE;
             else
                 nextState <= POS15;
             end if;
             
             -- RIGHT
-            when RIGHT =>
-            leds <= RIGHT_LEDS;
+            when ROTATE =>
+            leds <= ROTATE_LEDS;
             if (pulse = ACTIVE) then
-                nextState <= LEFT;
+                nextState <= POS1;
             else
-                nextState <= RIGHT;
+                nextState <= ROTATE;
             end if;
         end case;
     end process;
@@ -242,15 +242,11 @@ begin
         elsif (rising_edge(clock)) then
             if (count = COUNT_4HZ) then
                 count := 0;
+                pulse <= ACTIVE;
             else
                 count := count + 1;
+                pulse <= not ACTIVE; 
             end if;
-        end if;
-        
-        -- Update pulse depending on counts value
-        pulse <= not ACTIVE;                                    -- default case
-        if (count = COUNT_4HZ) then
-            pulse <= ACTIVE;
         end if;
     end process PULSE_GENERATOR;
 end LedWave_ARCH;
