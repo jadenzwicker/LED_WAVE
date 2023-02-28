@@ -84,7 +84,7 @@ begin
             if (pulse = ACTIVE) then
                 nextState <= POS1;
             else
-                nextState <= LEFT;
+                nextState <= currentState;
             end if;
             
             -- POS1
@@ -93,7 +93,7 @@ begin
             if (pulse = ACTIVE) then
                 nextState <= POS2;
             else
-                nextState <= POS1;
+                nextState <= currentState;
             end if;
             
             -- POS2
@@ -102,7 +102,7 @@ begin
             if (pulse = ACTIVE) then
                 nextState <= POS3;
             else
-                nextState <= POS2;
+                nextState <= currentState;
             end if;
             
             -- POS3
@@ -111,7 +111,7 @@ begin
             if (pulse = ACTIVE) then
                 nextState <= POS4;
             else
-                nextState <= POS3;
+                nextState <= currentState;
             end if;
             
             -- POS4
@@ -120,7 +120,7 @@ begin
             if (pulse = ACTIVE) then
                 nextState <= POS5;
             else
-                nextState <= POS4;
+                nextState <= currentState;
             end if;
             
             -- POS5
@@ -129,7 +129,7 @@ begin
             if (pulse = ACTIVE) then
                 nextState <= POS6;
             else
-                nextState <= POS5;
+                nextState <= currentState;
             end if;
             
             -- POS6
@@ -138,7 +138,7 @@ begin
             if (pulse = ACTIVE) then
                 nextState <= POS7;
             else
-                nextState <= POS6;
+                nextState <= currentState;
             end if;
             
             -- POS7
@@ -147,7 +147,7 @@ begin
             if (pulse = ACTIVE) then
                 nextState <= POS8;
             else
-                nextState <= POS7;
+                nextState <= currentState;
             end if;
             
             -- POS8
@@ -156,7 +156,7 @@ begin
             if (pulse = ACTIVE) then
                 nextState <= POS9;
             else
-                nextState <= POS8;
+                nextState <= currentState;
             end if;
             
             -- POS9
@@ -165,7 +165,7 @@ begin
             if (pulse = ACTIVE) then
                 nextState <= POS10;
             else
-                nextState <= POS9;
+                nextState <= currentState;
             end if;
             
             -- POS10
@@ -174,7 +174,7 @@ begin
             if (pulse = ACTIVE) then
                 nextState <= POS11;
             else
-                nextState <= POS10;
+                nextState <= currentState;
             end if;
             
             -- POS11
@@ -183,7 +183,7 @@ begin
             if (pulse = ACTIVE) then
                 nextState <= POS12;
             else
-                nextState <= POS11;
+                nextState <= currentState;
             end if;
             
             -- POS12
@@ -192,7 +192,7 @@ begin
             if (pulse = ACTIVE) then
                 nextState <= POS13;
             else
-                nextState <= POS12;
+                nextState <= currentState;
             end if;
             
             -- POS13
@@ -201,7 +201,7 @@ begin
             if (pulse = ACTIVE) then
                 nextState <= POS14;
             else
-                nextState <= POS13;
+                nextState <= currentState;
             end if;
             
             -- POS14
@@ -210,7 +210,7 @@ begin
             if (pulse = ACTIVE) then
                 nextState <= POS15;
             else
-                nextState <= POS14;
+                nextState <= currentState;
             end if;
             
             -- POS15
@@ -219,7 +219,7 @@ begin
             if (pulse = ACTIVE) then
                 nextState <= ROTATE;
             else
-                nextState <= POS15;
+                nextState <= currentState;
             end if;
             
             -- RIGHT
@@ -228,7 +228,7 @@ begin
             if (pulse = ACTIVE) then
                 nextState <= POS1;
             else
-                nextState <= ROTATE;
+                nextState <= currentState;
             end if;
         end case;
     end process;
